@@ -13,10 +13,8 @@ export class AppComponent {
     coursesObservable: Observable<any[]>;
 
     constructor(private db: AngularFireDatabase) {
-        this.coursesObservable = this.getCourses('/courses');
-    }
+        this.coursesObservable = this.db.list('/courses')
+            .valueChanges();
 
-    getCourses(listPath): Observable<any[]> {
-        return this.db.list(listPath).valueChanges();
     }
 }
