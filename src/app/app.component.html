@@ -11,3 +11,9 @@
 <div>
   {{courseFirst | async | json}}
 </div>
+
+<ul *ngIf="author$ | async as author">
+  <li>{{ author.name }}</li>
+  <li>{{ author.students }}</li>
+  <li>{{ author.isPremium }}</li>
+</ul>

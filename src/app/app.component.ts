@@ -12,11 +12,14 @@ export class AppComponent {
 
     coursesObservable: Observable<any[]>;
     courseFirst: Observable<any>;
+    author$: Observable<any>;
 
     constructor(private db: AngularFireDatabase) {
         this.coursesObservable = this.db.list('/courses')
             .valueChanges();
 
         this.courseFirst = this.db.object('/courses/learn-ionic3-from-scratch').valueChanges();
+
+        this.author$ = this.db.object('/authors/1').valueChanges();
     }
 }
