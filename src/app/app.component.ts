@@ -12,6 +12,10 @@ export class AppComponent {
     items: Observable<any[]>;
 
     constructor(private af: AngularFireDatabase) {
+        /**
+         * @see https://github.com/angular/angularfire2/blob/master/docs/rtdb/lists.md
+         * @type {AngularFireList<any>}
+         */
         this.itemsRef = af.list('list');
         // Use snapshotChanges().map() to store the key
         this.items = this.itemsRef.snapshotChanges().map(changes => {
