@@ -1,7 +1,6 @@
-import {Component, OnDestroy} from '@angular/core';
-import {AngularFireDatabase} from 'angularfire2/database';
+import {Component} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
-import {FirebaseListObservable} from 'angularfire2/database-deprecated';
+import {AngularFireDatabase, AngularFireList} from 'angularfire2/database';
 
 @Component({
     selector: 'app-root',
@@ -9,36 +8,30 @@ import {FirebaseListObservable} from 'angularfire2/database-deprecated';
     styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-    title = 'app';
+    itemsRef: AngularFireList<any>;
+    items: Observable<any[]>;
 
-    coursesObservable: Observable<any[]>;
-    listObservable: FirebaseListObservable<any[]>;
-    lists: FirebaseListObservable<any[]>;
-    courseFirst: Observable<any>;
-    author$: Observable<any>;
-
-    constructor(private db: AngularFireDatabase) {
-        this.coursesObservable = this.db.list('/courses')
-            .valueChanges();
-
-        this.courseFirst = this.db.object('/courses/learn-ionic3-from-scratch').valueChanges();
-
-        this.author$ = this.db.object('/authors/1').valueChanges();
-
-        this.listObservable = this.db.list('/list');
-
-        this.lists = this.db.list('/list').valueChanges();
+    constructor(private af: AngularFireDatabase) {
+        this.itemsRef = af.list('list');
+        // Use snapshotChanges().map() to store the key
+        this.items = this.itemsRef.snapshotChanges().map(changes => {
+            return changes.map(c => ({key: c.payload.key, ...c.payload.val()}));
+        });
     }
 
-    add(listItem) {
-        this.listObservable.push({
-            name: listItem.value,
-            sections: {
-                1 : {
-                    name: 'X'
-                }
-            }
-        });
-        listItem.value = '';
+    addItem(newName: string) {
+        this.itemsRef.push({name: newName});
+    }
+
+    updateItem(key: string, newText: string) {
+        this.itemsRef.update(key, {name: newText});
+    }
+
+    deleteItem(key: string) {
+        this.itemsRef.remove(key);
+    }
+
+    deleteEverything() {
+        this.itemsRef.remove();
     }
 }

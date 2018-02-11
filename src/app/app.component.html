@@ -1,17 +1,8 @@
-<input type="text" (keyup.enter)="add(listItem)" #listItem />
-
+<input type="text" #newitem (keyup.enter)="addItem(newitem.value)" />
+<button (click)="deleteEverything()">Delete All</button>
 <ul>
-  <li *ngFor="let listItem of lists | async">
-    <h3><a href="#">{{listItem.name}}</a></h3>
-  </li>
-</ul>
-
-<div>
-  {{courseFirst | async | json}}
-</div>
-
-<ul *ngIf="author$ | async as author">
-    <li>{{ author.name }}</li>
-    <li>{{ author.students }}</li>
-    <li>{{ author.isPremium }}</li>
+    <li *ngFor="let item of items | async">
+        <input type="text" #updatetext [value]="item.name" (keyup.enter)="updateItem(item.key, updatetext.value)" />
+        <button (click)="deleteItem(item.key)">Delete</button>
+    </li>
 </ul>
