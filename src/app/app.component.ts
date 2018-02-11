@@ -23,8 +23,9 @@ export class AppComponent {
         });
     }
 
-    addItem(newName: string) {
-        this.itemsRef.push({name: newName});
+    addItem(newitem) {
+        this.itemsRef.push({name: newitem.value});
+        newitem.value = '';
     }
 
     updateItem(key: string, newText: string) {
