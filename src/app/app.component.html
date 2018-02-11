@@ -1,10 +1,8 @@
+<input type="text" (keyup.enter)="add(listItem)" #listItem />
+
 <ul>
-  <li *ngFor="let course of coursesObservable | async">
-    <h3><a href="#">{{course.title}}</a> </h3>
-    <p>{{course.description}}</p>
-    <div>
-      <a href="{{course.url}}" target="_blank" class="btn btn-danger">Go To Course</a>
-    </div>
+  <li *ngFor="let listItem of lists | async">
+    <h3><a href="#">{{listItem.name}}</a></h3>
   </li>
 </ul>
 
@@ -13,7 +11,7 @@
 </div>
 
 <ul *ngIf="author$ | async as author">
-  <li>{{ author.name }}</li>
-  <li>{{ author.students }}</li>
-  <li>{{ author.isPremium }}</li>
+    <li>{{ author.name }}</li>
+    <li>{{ author.students }}</li>
+    <li>{{ author.isPremium }}</li>
 </ul>
