@@ -1,0 +1,8 @@
+<input type="text" #newitem (keyup.enter)="addItem(newitem)" />
+<button (click)="deleteEverything()">Delete All</button>
+<ul>
+    <li *ngFor="let item of items | async">
+        <input type="text" #updatetext [value]="item.name" (keyup.enter)="updateItem(item.key, updatetext.value)" />
+        <button (click)="deleteItem(item.key)">Delete</button>
+    </li>
+</ul>
